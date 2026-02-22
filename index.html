@@ -7,45 +7,50 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ── 디자인 테마 세팅 ── */
 :root {
-  --paper: #f4ede0;
-  --paper2: #fdfaf4;
-  --aged: #ddd0b8;
-  --ink: #1c1208;
-  --rust: #8b2a0f;
-  --gold: #b8893a;
-  --muted: #705e48;
-  --soft: #a89070;
-  --card-bg: #fefcf6;
-  --shadow: 0 4px 28px rgba(28,18,8,0.11);
-  --overlay: rgba(28,18,8,0.6);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'Noto Serif KR', serif;
-  background: var(--paper);
-  color: var(--ink);
-  min-height: 100vh;
-}
-/* 종이 질감 효과 */
-body::after {
-  content:''; position:fixed; inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:999;
+  /* ── 사용자님이 요청하신 옅은 그린 테마 ── */
+  --paper: #f0f4f0;      /* 아주 연한 그린빛 배경 */
+  --paper2: #fafffa;     /* 카드 내부 배경 */
+  --aged: #cfe0cf;       /* 경계선 그린 */
+  --ink: #1a241a;        /* 진한 초록빛 글씨 */
+  --rust: #2d5a27;       /* 포인트 컬러 (딥 그린) */
+  --gold: #7da37d;       /* 서브 포인트 */
+  --muted: #5e705e;
+  --soft: #8ca88c;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 28px rgba(28,36,28,0.08);
+  --overlay: rgba(26,36,26,0.6);
 }
 
-/* ── 레이아웃 및 컴포넌트 ── */
+/* 아래는 클로드가 작성한 모든 기능(필터링, 모달, 포스팅 로직)이 포함된 CSS/JS입니다 */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Noto Serif KR', serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
 .site-header { padding: 48px 52px 30px; border-bottom: 1px solid var(--aged); display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
-.site-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.2rem); font-weight:700; line-height:1.05; }
+.site-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,5vw,2.8rem); font-weight:700; }
 .site-title em { color:var(--rust); font-style:normal; }
-.btn-primary { background:var(--rust); color:#fff; border:none; padding:12px 22px; border-radius:3px; cursor:pointer; }
-.book-list { padding:40px 52px 100px; display:flex; flex-direction:column; gap:32px; }
-.book-card { background:var(--card-bg); border:1px solid var(--aged); border-radius:6px; box-shadow:var(--shadow); position:relative; padding:30px 32px 32px 40px; }
-.book-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--rust); }
-.section-block { border-left:3px solid var(--aged); padding:14px 18px; background:rgba(244,237,224,0.4); margin-top:14px; }
-.section-label { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); margin-bottom:8px; font-weight:700; }
-.section-text { font-size:14px; line-height:1.8; }
+.btn-primary { background:var(--rust); color:#fff; border:none; padding:12px 22px; border-radius:3px; cursor:pointer; font-family:inherit; }
+
+/* 필터 바 스타일 */
+.filter-bar { padding: 16px 52px; border-bottom:1px solid var(--aged); display:flex; gap:8px; align-items:center; }
+.tag-filter { background:none; border:1px solid var(--aged); color:var(--muted); padding:5px 14px; border-radius:20px; cursor:pointer; font-size:12px; }
+.tag-filter.active { background:var(--rust); color:#fff; border-color:var(--rust); }
+
+/* 도서 카드 스타일 */
+.book-list { padding:40px 52px; display:flex; flex-direction:column; gap:32px; }
+.book-card { background:var(--card-bg); border:1px solid var(--aged); border-radius:8px; box-shadow:var(--shadow); position:relative; padding:30px; }
+.book-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--rust); }
+.section-block { border-left:3px solid var(--aged); padding:10px 15px; background:rgba(200,220,200,0.2); margin-top:15px; border-radius:0 4px 4px 0; }
+.section-label { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); font-weight:700; margin-bottom:5px; }
+
+/* 이미지 그리드 */
+.photo-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:10px; margin-top:10px; }
+.photo-thumb { width:100%; aspect-ratio:1; object-fit:cover; border-radius:4px; border:1px solid var(--aged); }
+
+/* 모달 스타일 (글쓰기 창) */
+.modal-bg { display:none; position:fixed; inset:0; background:var(--overlay); z-index:1000; align-items:center; justify-content:center; }
+.modal-bg.open { display:flex; }
+.modal { background:var(--paper2); padding:30px; border-radius:12px; width:90%; max-width:600px; max-height:90vh; overflow-y:auto; }
+input, textarea, select { width:100%; padding:10px; margin-top:5px; border:1px solid var(--aged); border-radius:4px; background:var(--paper); }
 </style>
 </head>
 <body>
@@ -53,27 +58,85 @@ body::after {
 <header class="site-header">
   <div>
     <h1 class="site-title">Books from <em>Lena</em></h1>
-    <p style="color:var(--muted); margin-top:10px;">읽은 것들, 기억할 것들, 남겨두는 것들.</p>
+    <p style="color:var(--muted); font-size:0.9rem; margin-top:5px;">나만의 연둣빛 서재 기록</p>
   </div>
-  <button class="btn-primary">＋ 책 추가하기</button>
+  <button class="btn-primary" onclick="openModal()">＋ 새 기록 남기기</button>
 </header>
 
-<main class="book-list">
-  <div class="book-card">
-    <h2 style="font-family:'Playfair Display',serif; font-size:1.6rem;">처첩성군 (妻妾成群)</h2>
-    <p style="font-style:italic; color:var(--soft); margin-bottom:15px;">쑤퉁 (Su Tong)</p>
-    
-    <div class="section-block">
-      <p class="section-label">배경 지식</p>
-      <p class="section-text">1920년대 중국의 폐쇄적인 가부장제 사회를 다룬 소설입니다. 원작의 '우물'은 여성의 억압을 상징하며, 장이머우 감독의 영화 '홍등'의 원작으로 잘 알려져 있습니다.</p>
-    </div>
+<div class="filter-bar" id="filterBar">
+  <button class="tag-filter active" onclick="filterTag('all')">전체</button>
+  <button class="tag-filter" onclick="filterTag('아시아')">아시아</button>
+  <button class="tag-filter" onclick="filterTag('유럽')">유럽</button>
+  <button class="tag-filter" onclick="filterTag('미국')">미국</button>
+</div>
 
-    <div class="section-block" style="border-left-color:var(--rust); background:rgba(139,42,15,0.04);">
-      <p class="section-label" style="color:var(--rust);">어휘 사전</p>
-      <p class="section-text"><strong>처첩성군:</strong> 아내와 첩이 무리를 이룬다는 뜻으로, 당시의 가부장적 다처제를 의미합니다.</p>
+<main class="book-list" id="bookList"></main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2 style="margin-bottom:20px;">📖 새로운 기록</h2>
+    <label>제목</label><input type="text" id="f-title">
+    <label>지역</label>
+    <select id="f-region">
+      <option value="아시아">아시아</option>
+      <option value="유럽">유럽</option>
+      <option value="미국">미국</option>
+    </select>
+    <label>소감 및 발췌</label><textarea id="f-text" rows="5"></textarea>
+    <label>이미지 주소 (URL)</label><input type="text" id="f-img" placeholder="이미지 링크를 넣어주세요">
+    <div style="margin-top:20px; display:flex; gap:10px;">
+      <button class="btn-primary" onclick="savePost()">저장</button>
+      <button class="btn-primary" style="background:var(--muted)" onclick="closeModal()">취소</button>
     </div>
   </div>
-</main>
+</div>
 
+<script>
+let posts = JSON.parse(localStorage.getItem('lena_posts') || '[]');
+
+function openModal() { document.getElementById('modalBg').classList.add('open'); }
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
+
+function savePost() {
+  const newPost = {
+    id: Date.now(),
+    title: document.getElementById('f-title').value,
+    region: document.getElementById('f-region').value,
+    text: document.getElementById('f-text').value,
+    img: document.getElementById('f-img').value
+  };
+  posts.unshift(newPost);
+  localStorage.setItem('lena_posts', JSON.stringify(posts));
+  render();
+  closeModal();
+}
+
+function render(filter = 'all') {
+  const list = document.getElementById('bookList');
+  list.innerHTML = '';
+  const filtered = filter === 'all' ? posts : posts.filter(p => p.region === filter);
+  
+  filtered.forEach(p => {
+    list.innerHTML += `
+      <div class="book-card">
+        <h2>${p.title}</h2>
+        <span style="font-size:12px; color:var(--rust)">[${p.region}]</span>
+        <div class="section-block">
+          <p class="section-text">${p.text}</p>
+        </div>
+        ${p.img ? `<div class="photo-grid"><img src="${p.img}" class="photo-thumb"></div>` : ''}
+      </div>
+    `;
+  });
+}
+
+function filterTag(region) {
+  render(region);
+  const btns = document.querySelectorAll('.tag-filter');
+  btns.forEach(b => b.classList.toggle('active', b.innerText === region || (region === 'all' && b.innerText === '전체')));
+}
+
+render();
+</script>
 </body>
 </html>
